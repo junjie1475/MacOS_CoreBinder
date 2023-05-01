@@ -3,6 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>OSBundleLibraries</key>
-	<dict/>
+	<dict>
+		<key>com.apple.kpi.bsd</key>
+		<string>21.6.0</string>
+		<key>com.apple.kpi.mach</key>
+		<string>21.6.0</string>
+		<key>com.apple.kpi.libkern</key>
+		<string>21.6.0</string>
+	</dict>
 </dict>
 </plist>
