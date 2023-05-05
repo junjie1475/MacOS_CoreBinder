@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		B35A420329D6EDD90051E477 /* MacOS_CoreBinder.c in Sources */ = {isa = PBXBuildFile; fileRef = B35A420229D6EDD90051E477 /* MacOS_CoreBinder.c */; };
+		B3A7F7762A04F2660031E646 /* commandline_tool in Resources */ = {isa = PBXBuildFile; fileRef = B3A7F7752A04F2660031E646 /* commandline_tool */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B35A41FF29D6EDD90051E477 /* MacOS_CoreBinder.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacOS_CoreBinder.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		B35A420229D6EDD90051E477 /* MacOS_CoreBinder.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MacOS_CoreBinder.c; sourceTree = "<group>"; };
 		B35A420429D6EDD90051E477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3A7F7752A04F2660031E646 /* commandline_tool */ = {isa = PBXFileReference; lastKnownFileType = folder; path = commandline_tool; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +32,7 @@
 		B35A41F529D6EDD80051E477 = {
 			isa = PBXGroup;
 			children = (
+				B3A7F7752A04F2660031E646 /* commandline_tool */,
 				B35A420129D6EDD90051E477 /* MacOS_CoreBinder */,
 				B35A420029D6EDD90051E477 /* Products */,
 			);
@@ -120,6 +123,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3A7F7762A04F2660031E646 /* commandline_tool in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +256,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6HY5M2KM5P;
+				DEVELOPMENT_TEAM = TPA74W97U2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MacOS_CoreBinder/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -276,7 +280,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6HY5M2KM5P;
+				DEVELOPMENT_TEAM = TPA74W97U2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MacOS_CoreBinder/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
