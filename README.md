@@ -9,7 +9,11 @@ Unless you know what you are doing, otherwise don't use it.
 3. Move .kext folder under /Library/Extensions/. There will be a window pops up, follow the instrucion from there.
 4. Run the command `sudo kextload /Library/Extensions/MacOS_CoreBinder.kext`.
 # How to use?
-After you had installed it, you can call the syscall via `sysctlbyname("kern.pin_core", NULL, NULL, &core, sizeof(core))` or use the commandline tool I provided under commandline_tool folder.
+Two ways:
+1. Pin the current thread via `sysctlbyname("kern.pin_core", NULL, NULL, &core, sizeof(core))`
+2. Pin all the threads in a process using pid you had specified via syscall `sysctlbyname("kern.pin_core_pid", NULL, NULL, &pid_core, sizeof(pid_core))`
+  Note: `pid_core` top 32 bits for pid(-1 for all processes) bottom 32 bits for cpuid.
+
 # Acknowledgement
 Thanks for the help from jht5132(https://tieba.baidu.com/home/main?fr=home&id=tb.1.7a7e3dba.vu9oHFoN6nhDwEfbdVfrrw&un=Jht5132) for testing the kext, without him this project won't be possible.
 Screenshot provided by him.
