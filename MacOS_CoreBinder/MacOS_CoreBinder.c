@@ -10,6 +10,7 @@
 #include <machine/machine_routines.h>
 #include <sys/proc.h>
 #include <kern/sched_prim.h>
+#include <sys/resource.h>
 
 // Tested on Darwin Kernel Version 22.4.0: Mon Mar  6 20:59:28 PST 2023; root:xnu-8796.101.5~3/RELEASE_ARM64_T6000
 // Should work on all the Apple silicon machines
@@ -17,9 +18,15 @@
 // TODO: Find offset from the binary instead of hardcoding it
 #ifdef T8112
 #define bound_processor_offset 0x268
+#elif T6020
+#define bound_processor_offset 0x270
 #else
 #define bound_processor_offset 0x260
 #endif
+
+#define task__threads 0x58
+#define thread__task_threads 0x3b8
+#define proc_iterate_offset 0x475094
 
 // To bypass kernel address checking may come handy when debugging
 #define DEBUG_PRINT_PTR(ptr) (uint32_t)(((uint64_t)ptr) >> 32), (uint32_t)(((uint64_t)ptr) & 0xFFFFFFFF)
@@ -33,10 +40,6 @@ thread_t current_thread(void);
 kern_return_t MacOS_CoreBinder_start(kmod_info_t * ki, void *d);
 kern_return_t MacOS_CoreBinder_stop(kmod_info_t *ki, void *d);
 
-
-#define task__threads 0x58
-#define thread__task_threads 0x3b8
-#define proc_iterate_offset 0x475094
 
 // https://github.com/apple-oss-distributions/xnu/blob/5c2921b07a2480ab43ec66f5b9e41cb872bc554f/bsd/sys/proc_internal.h
 typedef int (*proc_iterate_fn_t)(proc_t, void *);
