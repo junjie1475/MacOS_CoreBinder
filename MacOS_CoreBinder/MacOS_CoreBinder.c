@@ -150,6 +150,22 @@ static int sysctl_pincore SYSCTL_HANDLER_ARGS {
 SYSCTL_PROC(_kern, OID_AUTO, pin_core, CTLTYPE_INT | CTLFLAG_RW | CTLFLAG_ANYBODY,
             NULL, 0, &sysctl_pincore, "I", "bind thread on core");
 
+static int sysctl_pincore_inc SYSCTL_HANDLER_ARGS {
+    static uint32_t cpuid = 0;
+
+    thread_t thread = current_thread();
+
+    processor_t* bound_processor = (processor_t*)((char*)thread + bound_processor_offset);
+    printf("MacOS_CoreBinder: ^^^thread->bound_processor^^^: 0x%x%x\n", DEBUG_PRINT_PTR(*bound_processor));
+    *bound_processor = processor_array[cpuid % 6];
+    cpuid++;
+    thread_block(THREAD_CONTINUE_NULL); // force the scheduler to switch the thread
+    return 0;
+}
+
+SYSCTL_PROC(_kern, OID_AUTO, pin_core_inc, CTLTYPE_INT | CTLFLAG_RW | CTLFLAG_ANYBODY,
+            NULL, 0, &sysctl_pincore_inc, "I", "bind thread on core");
+
 static int sysctl_pincore_pid SYSCTL_HANDLER_ARGS {
     // use top 32 bits as pid, bottom 32 bits as cpuid
     // if pid = -1, then bind all the threads on the system to that core
@@ -182,6 +198,7 @@ kern_return_t MacOS_CoreBinder_start(kmod_info_t * ki, void *d)
     isreg = 1;
     sysctl_register_oid(&sysctl__kern_pin_core);
     sysctl_register_oid(&sysctl__kern_pin_core_pid);
+    sysctl_register_oid(&sysctl__kern_pin_core_inc);
     
     uintptr_t unauthenticated_proc_iterate = (unsigned long long)unauthenticated_printf + proc_iterate_offset;
     void *ptr2 = (void*)ptrauth_sign_unauthenticated((void*)unauthenticated_proc_iterate, ptrauth_key_function_pointer, 0);
@@ -199,6 +216,7 @@ kern_return_t MacOS_CoreBinder_stop(kmod_info_t *ki, void *d)
     if(isreg != -1) {
         sysctl_unregister_oid(&sysctl__kern_pin_core);
         sysctl_unregister_oid(&sysctl__kern_pin_core_pid);
+        sysctl_unregister_oid(&sysctl__kern_pin_core_inc);
     }
     printf("MacOS_CoreBinder_stop\n");
     return KERN_SUCCESS;
