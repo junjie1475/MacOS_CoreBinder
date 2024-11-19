@@ -16,13 +16,15 @@
 // Should work on all the Apple silicon machines
 
 // TODO: Find offset from the binary instead of hardcoding it
-#ifdef T8112
-#define bound_processor_offset 0x268
-#elif T6020
+//#ifdef T8112
+//#define bound_processor_offset 0x268
+//#elif T6020
+//#define bound_processor_offset 0x270
+//#else
+//#define bound_processor_offset 0x260
+//#endif
+
 #define bound_processor_offset 0x270
-#else
-#define bound_processor_offset 0x260
-#endif
 
 #define task__threads 0x58
 #define thread__task_threads 0x3b8
@@ -81,19 +83,19 @@ static int find_bound_processor_in_text_exec(char *text_exec, uint64_t text_exec
     /*
      Find this pattern
      str        x20, [x8, w19, sxtw #3]
-     ldp        fp, lr, [sp, #0x30]
-     ldp        x20, x19, [sp, #0x20]
-     ldp        x22, x21, [sp, #0x10]
-     ldp        x24, x23, [sp], #0x40
+     ldp        fp, lr, [sp, #0x60]
+     ldp        x20, x19, [sp, #0x50]
+     ldp        x22, x21, [sp, #0x40]
+     ldp        x24, x23, [sp, #0x30]
      */
 
     uint32_t *instructions = (uint32_t *)text_exec;
     for (uint64_t i = 0; i < text_exec_size / sizeof(uint32_t) - 5; ++i) {
         if (instructions[i + 0] == 0xF833D914 &&
-            instructions[i + 1] == 0xA9437BFD &&
-            instructions[i + 2] == 0xA9424FF4 &&
-            instructions[i + 3] == 0xA94157F6 &&
-            instructions[i + 4] == 0xA8C45FF8) {
+            instructions[i + 1] == 0xA9467BFD &&
+            instructions[i + 2] == 0xA9454FF4 &&
+            instructions[i + 3] == 0xA94457F6 &&
+            instructions[i + 4] == 0xA9435FF8) {
             printf("MacOS_CoreBinder: Found processor_array pointer read at %x%x\n", DEBUG_PRINT_PTR(instructions + i - 2));
             // Extract the low 4 bits from the immediate of add.
             long offset = (instructions[i - 1] >> 10) & 0b111111111111;
